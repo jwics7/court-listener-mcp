@@ -15,6 +15,14 @@ RUN pip install --no-cache-dir uv
 
 COPY . /app
 
+# Hatchling requires README.md because pyproject.toml references it.
+# Some forks/build contexts do not include it, often because of .dockerignore.
+RUN if [ ! -f README.md ]; then \
+      if [ -f app/README.md ]; then cp app/README.md README.md; \
+      else printf '%s\n' '# CourtListener MCP Server' > README.md; \
+      fi; \
+    fi
+
 RUN uv pip install --system .
 
 ENV HOST=0.0.0.0
