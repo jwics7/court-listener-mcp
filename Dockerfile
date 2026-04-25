@@ -24,7 +24,7 @@ RUN if [ ! -f README.md ]; then \
     fi
 
 RUN uv pip install --system .
-RUN uv pip install --system markdown.
+RUN uv pip install --system markdown
 
 ENV HOST=0.0.0.0
 ENV PORT=8000
