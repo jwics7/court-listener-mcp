@@ -22,13 +22,8 @@ RUN if [ ! -f README.md ]; then \
     fi
 
 RUN uv pip install --system .
-RUN uv pip install --system markdown
+RUN uv pip install --system markdown mcpo
 
-ENV HOST=0.0.0.0
-ENV PORT=8000
-ENV MCP_PORT=8000
-ENV MCP_PATH=/mcp/
-ENV MCP_TRANSPORT=http
 ENV COURTLISTENER_BASE_URL=https://www.courtlistener.com/api/rest/v4/
 ENV COURT_LISTENER_TIMEOUT=30
 ENV LOG_LEVEL=INFO
@@ -36,7 +31,8 @@ ENV COURTLISTENER_LOG_LEVEL=INFO
 ENV RATE_LIMIT_REQUESTS=10
 ENV RATE_LIMIT_PERIOD=60
 ENV DEBUG=false
+ENV PORT=8000
 
 EXPOSE 8000
 
-CMD ["python", "-m", "app.server", "--transport", "http", "--host", "0.0.0.0", "--port", "8000", "--path", "/mcp/"]
+CMD ["mcpo", "--host", "0.0.0.0", "--port", "8000", "--", "python", "-m", "app.server"]
